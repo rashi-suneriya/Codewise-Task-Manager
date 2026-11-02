@@ -7,6 +7,7 @@ import TaskForm from './components/TaskForm';
 import TaskEditModal from './components/TaskEditModal';
 import ConfirmModal from './components/ConfirmModal';
 import Notification from './components/Notification';
+import { isTaskOverdue } from './utils/dateUtils';
 import {
   getTasks,
   createTask as apiCreateTask,
@@ -70,8 +71,10 @@ function App() {
       setError(null);
 
       try {
+        // When filtering by 'overdue', fetch non-status filtered data and apply timezone-aware overdue check
+        const queryStatus = status === 'overdue' ? 'all' : status;
         const response = await getTasks({
-          status,
+          status: queryStatus,
           priority,
           sortBy,
           order,
@@ -79,7 +82,11 @@ function App() {
         });
 
         if (response && response.data) {
-          setTasks(response.data);
+          if (status === 'overdue') {
+            setTasks(response.data.filter((t) => isTaskOverdue(t.dueDate, t.status)));
+          } else {
+            setTasks(response.data);
+          }
         }
       } catch (err) {
         console.error('Error fetching tasks:', err);

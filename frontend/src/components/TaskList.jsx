@@ -61,6 +61,9 @@ const TaskList = ({
     } else if (activeFilter === 'done') {
       emptyMessage = 'No completed tasks yet.';
       emptySubtitle = 'Keep working! Finished tasks will appear here.';
+    } else if (activeFilter === 'overdue') {
+      emptyMessage = 'No overdue tasks!';
+      emptySubtitle = 'Great job! All of your tasks are currently on schedule.';
     }
 
     return (

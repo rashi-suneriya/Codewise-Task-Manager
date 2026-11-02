@@ -50,13 +50,19 @@ const getTasks = async (req, res, next) => {
     // Validate and apply status filter
     if (status && status !== 'all') {
       const normalizedStatus = status.toLowerCase().trim();
-      if (!VALID_STATUSES.includes(normalizedStatus)) {
+      if (normalizedStatus === 'overdue') {
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        filter.status = { $ne: 'done' };
+        filter.dueDate = { $ne: null, $lt: todayStart };
+      } else if (!VALID_STATUSES.includes(normalizedStatus)) {
         return res.status(400).json({
           success: false,
-          message: `Invalid status filter '${status}'. Allowed values: ${VALID_STATUSES.join(', ')}`,
+          message: `Invalid status filter '${status}'. Allowed values: ${VALID_STATUSES.join(', ')}, overdue`,
         });
+      } else {
+        filter.status = normalizedStatus;
       }
-      filter.status = normalizedStatus;
     }
 
     // Validate and apply priority filter

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListTodo, Clock, CheckCircle2, AlertTriangle, Layers } from 'lucide-react';
+import { isTaskOverdue } from '../utils/dateUtils';
 
 const TaskStats = ({ tasks, activeStatus, onSelectStatus }) => {
   const total = tasks.length;
@@ -7,10 +8,8 @@ const TaskStats = ({ tasks, activeStatus, onSelectStatus }) => {
   const inProgressCount = tasks.filter((t) => t.status === 'in_progress').length;
   const doneCount = tasks.filter((t) => t.status === 'done').length;
 
-  const now = new Date();
-  const overdueCount = tasks.filter(
-    (t) => t.dueDate && new Date(t.dueDate) < now && t.status !== 'done'
-  ).length;
+  // Accurately count overdue tasks (excluding tasks due today or completed tasks)
+  const overdueCount = tasks.filter((t) => isTaskOverdue(t.dueDate, t.status)).length;
 
   const stats = [
     {
@@ -47,7 +46,6 @@ const TaskStats = ({ tasks, activeStatus, onSelectStatus }) => {
       count: overdueCount,
       icon: AlertTriangle,
       colorClass: 'stat-overdue',
-      isOverdueAlert: true,
     },
   ];
 
@@ -62,11 +60,8 @@ const TaskStats = ({ tasks, activeStatus, onSelectStatus }) => {
             key={stat.id}
             type="button"
             className={`stat-card ${stat.colorClass} ${isActive ? 'active' : ''}`}
-            onClick={() => {
-              if (stat.id !== 'overdue') {
-                onSelectStatus(stat.id);
-              }
-            }}
+            onClick={() => onSelectStatus(stat.id)}
+            title={`Filter by ${stat.label}`}
           >
             <div className="stat-icon-wrapper">
               <Icon size={20} />

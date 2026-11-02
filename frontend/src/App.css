@@ -174,6 +174,11 @@
   background-color: var(--primary-50);
 }
 
+.stat-overdue.active {
+  border-color: var(--danger-500);
+  background-color: var(--danger-50);
+}
+
 .stat-icon-wrapper {
   width: 40px;
   height: 40px;

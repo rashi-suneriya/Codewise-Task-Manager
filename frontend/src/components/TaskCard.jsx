@@ -12,6 +12,7 @@ import {
   ArrowDown,
   Minus,
 } from 'lucide-react';
+import { formatDueDate } from '../utils/dateUtils';
 
 const TaskCard = ({
   task,
@@ -23,51 +24,7 @@ const TaskCard = ({
   const { id, _id, title, description, priority, status, dueDate, createdAt } = task;
   const taskId = id || _id;
 
-  // Format Due Date
-  const formatDueDate = (dateString) => {
-    if (!dateString) return null;
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return null;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const taskDate = new Date(date);
-    taskDate.setHours(0, 0, 0, 0);
-
-    const diffDays = Math.round((taskDate - today) / (1000 * 60 * 60 * 24));
-
-    let relativeLabel = '';
-    let isOverdue = false;
-    let isDueToday = false;
-
-    if (diffDays < 0 && status !== 'done') {
-      isOverdue = true;
-      relativeLabel = `${Math.abs(diffDays)}d overdue`;
-    } else if (diffDays === 0) {
-      isDueToday = true;
-      relativeLabel = 'Due today';
-    } else if (diffDays === 1) {
-      relativeLabel = 'Due tomorrow';
-    } else if (diffDays > 1 && diffDays <= 7) {
-      relativeLabel = `In ${diffDays} days`;
-    }
-
-    const formattedDate = date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined,
-    });
-
-    return {
-      formattedDate,
-      relativeLabel,
-      isOverdue,
-      isDueToday,
-    };
-  };
-
-  const dueDateInfo = formatDueDate(dueDate);
+  const dueDateInfo = formatDueDate(dueDate, status);
 
   // Priority metadata
   const priorityConfig = {
