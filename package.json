@@ -1,0 +1,23 @@
+{
+  "name": "personal-task-manager",
+  "version": "1.0.0",
+  "description": "Personal Task Manager - Full-Stack MERN Assessment for Codewise Infotech",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm start",
+    "build:frontend": "cd frontend && npm run build",
+    "test:backend": "cd backend && node test-api.js"
+  },
+  "keywords": [
+    "mern",
+    "mongodb",
+    "express",
+    "react",
+    "nodejs",
+    "vite",
+    "task-manager"
+  ],
+  "author": "Full Stack MERN Developer",
+  "license": "ISC"
+}
