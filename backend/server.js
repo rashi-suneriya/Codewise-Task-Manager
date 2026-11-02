@@ -69,7 +69,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV !== 'test') {
+if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`[Server] Codewise Task Manager running on port ${PORT}`);
     console.log(`[Server] API endpoints available at http://localhost:${PORT}/api/tasks`);

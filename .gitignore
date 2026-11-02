@@ -28,6 +28,11 @@ pnpm-debug.log*
 lerna-debug.log*
 *.log
 
+# Local Mongo Data
+.mongo-data/
+data/
+
+
 # Editor & OS Files
 .DS_Store
 Thumbs.db
