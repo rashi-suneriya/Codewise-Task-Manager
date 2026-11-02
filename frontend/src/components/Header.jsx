@@ -12,7 +12,6 @@ const Header = ({ onOpenCreateModal, onRefresh, isRefreshing }) => {
           <div>
             <div className="brand-title-row">
               <h1 className="brand-title">Personal Task Manager</h1>
-              <span className="badge-codewise">Codewise Assessment</span>
             </div>
             <p className="brand-subtitle">Organize, track, and accomplish your daily tasks</p>
           </div>
